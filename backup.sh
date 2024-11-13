@@ -5,6 +5,9 @@ set -o pipefail
 
 >&2 echo "-----"
 
+# Define o fuso horário
+export TZ=${TZ:-UTC}  # Usa UTC como padrão caso TZ não esteja definido
+
 if [ "${S3_ACCESS_KEY_ID}" = "**None**" ]; then
   echo "You need to set the S3_ACCESS_KEY_ID environment variable."
   exit 1

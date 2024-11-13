@@ -3,22 +3,28 @@ FROM alpine:3.20 AS build
 WORKDIR /app
 
 RUN apk update \
-	&& apk upgrade \
-	&& apk add go
+    && apk upgrade \
+    && apk add go
 
 COPY main.go /app/main.go
 
-RUN go mod init github.com/itbm/postgresql-backup-s3 \
-	&& go get github.com/robfig/cron/v3 \
-	&& go build -o out/go-cron
+RUN go mod init github.com/MichaelRodriguesOficial/postgresql-backup-s3 \
+    && go get github.com/robfig/cron/v3 \
+    && go build -o out/go-cron
 
 FROM alpine:3.20
-LABEL maintainer="ITBM"
+LABEL maintainer="ITMR"
 
 RUN apk update \
-	&& apk upgrade \
-	&& apk add coreutils postgresql16-client aws-cli openssl \
-	&& rm -rf /var/cache/apk/*
+    && apk upgrade \
+    && apk add coreutils postgresql16-client postgresql15-client postgresql14-client aws-cli openssl \
+    && apk add tzdata nano \
+    && cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
+    && echo "America/Sao_Paulo" > /etc/timezone \
+    && rm -rf /var/cache/apk/*
+
+# Definir o fuso horário como variável de ambiente
+ENV TZ=America/Sao_Paulo
 
 COPY --from=build /app/out/go-cron /usr/local/bin/go-cron
 
