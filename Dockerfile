@@ -28,13 +28,6 @@ ENV TZ=America/Sao_Paulo
 
 COPY --from=build /app/out/go-cron /usr/local/bin/go-cron
 
-# Copiar os scripts para o diretório apropriado
-ADD run.sh /app/run.sh
-ADD backup.sh /app/backup.sh
-
-# Dar permissões de execução aos scripts
-RUN chmod +x /app/run.sh /app/backup.sh
-
 ENV POSTGRES_DATABASE=**None**
 ENV POSTGRES_HOST=**None**
 ENV POSTGRES_PORT=5432
@@ -51,5 +44,10 @@ ENV S3_S3V4=no
 ENV SCHEDULE=**None**
 ENV ENCRYPTION_PASSWORD=**None**
 ENV DELETE_OLDER_THAN=**None**
+
+ADD run.sh run.sh
+ADD backup.sh backup.sh
+
+RUN chmod +x run.sh backup.sh
 
 CMD ["sh", "run.sh"]
