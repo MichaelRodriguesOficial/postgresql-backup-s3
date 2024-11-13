@@ -8,7 +8,7 @@ Backup PostgresSQL to S3 (supports periodic backups)
 $ docker run -e S3_ACCESS_KEY_ID="sua-chave" -e S3_SECRET_ACCESS_KEY="sua-chave-secreta" -e POSTGRES_DATABASE="nome-do-banco" -e POSTGRES_HOST="host-do-postgres" -e POSTGRES_USER="seu-usuario" -e POSTGRES_PASSWORD="sua-senha" -e S3_BUCKET="seu-bucket" -e TZ="America/Sao_Paulo" meu-backup-postgres-s3
 
 ```
-## Exemple the use
+##ENV exemple the use
 ```
 
 TZ=America/Sao_Paulo
