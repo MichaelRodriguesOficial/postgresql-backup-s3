@@ -8,13 +8,32 @@ Backup PostgresSQL to S3 (supports periodic backups)
 $ docker run -e S3_ACCESS_KEY_ID="sua-chave" -e S3_SECRET_ACCESS_KEY="sua-chave-secreta" -e POSTGRES_DATABASE="nome-do-banco" -e POSTGRES_HOST="host-do-postgres" -e POSTGRES_USER="seu-usuario" -e POSTGRES_PASSWORD="sua-senha" -e S3_BUCKET="seu-bucket" -e TZ="America/Sao_Paulo" meu-backup-postgres-s3
 
 ```
+## Exemple the use
+```
 
+TZ=America/Sao_Paulo
+POSTGRES_DATABASE=all
+POSTGRES_HOST=db_postgres
+POSTGRES_PORT=5432
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD='YOU PASSWORD'
+S3_ACCESS_KEY_ID='YOU ID KEY'
+S3_SECRET_ACCESS_KEY='YOU ACCESS KEY'
+S3_BUCKET=postgres
+S3_PREFIX=backup
+S3_REGION=us-west-1
+S3_ENDPOINT=https://s3.domain.com
+S3_S3V4=yes
+SCHEDULE=20 * * *
+DELETE_OLDER_THAN=30 days ago
+
+```
 
 ## Environment variables
 
 | Variable             | Default          | Required | Description                                                                                                              |
 |----------------------|------------------|----------|--------------------------------------------------------------------------------------------------------------------------|
-| POSTGRES_DATABASE    |                  | Y        | Database you want to backup or 'all' to backup everything                                                                |
+| POSTGRES_DATABASE    |                  | Y        | Database you want to backup or 'all' to backup everything. In 'All' with V2 the banks are listed separately with the appropriate names and dates.|
 | POSTGRES_HOST        |                  | Y        | The PostgreSQL host                                                                                                      |
 | POSTGRES_PORT        | 5432             |          | The PostgreSQL port                                                                                                      |
 | POSTGRES_USER        |                  | Y        | The PostgreSQL user                                                                                                      |
