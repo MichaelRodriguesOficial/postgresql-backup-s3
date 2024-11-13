@@ -1,6 +1,5 @@
 #! /bin/sh
-
-set -e
+set -x
 
 if [ "${S3_S3V4}" = "yes" ]; then
     aws configure set default.s3.signature_version s3v4
