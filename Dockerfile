@@ -8,7 +8,7 @@ RUN apk update \
 
 COPY main.go /app/main.go
 
-RUN go mod init github.com/itbm/postgresql-backup-s3 \
+RUN go mod init github.com/MichaelRodriguesOficial/postgresql-backup-s3 \
     && go get github.com/robfig/cron/v3 \
     && go build -o out/go-cron
 
@@ -28,6 +28,13 @@ ENV TZ=America/Sao_Paulo
 
 COPY --from=build /app/out/go-cron /usr/local/bin/go-cron
 
+# Copiar os scripts para o diretório apropriado
+ADD run.sh /app/run.sh
+ADD backup.sh /app/backup.sh
+
+# Dar permissões de execução aos scripts
+RUN chmod +x /app/run.sh /app/backup.sh
+
 ENV POSTGRES_DATABASE=**None**
 ENV POSTGRES_HOST=**None**
 ENV POSTGRES_PORT=5432
@@ -40,12 +47,9 @@ ENV S3_BUCKET=**None**
 ENV S3_REGION=us-west-1
 ENV S3_PREFIX='backup'
 ENV S3_ENDPOINT=**None**
-ENV S3_S3V4=no,
+ENV S3_S3V4=no
 ENV SCHEDULE=**None**
 ENV ENCRYPTION_PASSWORD=**None**
 ENV DELETE_OLDER_THAN=**None**
-
-ADD run.sh run.sh
-ADD backup.sh backup.sh
 
 CMD ["sh", "run.sh"]
